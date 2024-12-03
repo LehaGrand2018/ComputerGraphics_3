@@ -9,31 +9,36 @@
 <body>
     <h1>Растровые алгоритмы</h1>
     <div class="controls">
-        <label class="scaleLable">Масштаб</label>
+        <label class="scaleLabel">Масштаб</label>
         <input class="scaleInput" type="range" id="scale" name="scaleInput" value="20" min="10" max="200" step="1">
         <br>
-        <label class="algorithmLable" for="algorithm">Выберите алгоритм:</label>
+        <label class="algorithmLabel" for="algorithm">Выберите алгоритм:</label>
         <select class="algorithm" id="algorithm">
             <option value="step">Пошаговый алгоритм</option>
             <option value="dda">Алгоритм ЦДА</option>
             <option value="bresenhamLine">Алгоритм Брезенхема (линия)</option>
             <option value="bresenhamCircle">Алгоритм Брезенхема (окружность)</option>
+            <option value="bresenhamEllipse">Алгоритм Брезенхема (эллипс)</option>
         </select>
 
         <div class="startCoords">
             <label>Начальные координаты (X1, Y1):</label>
-            <input class="coordinatesInputX1" type="number" id="x1" value="0"> 
+            <input class="coordinatesInputX1" type="number" id="x1" value="0">
             <input class="coordinatesInputY1" type="number" id="y1" value="0">
             <div class="coordinatesR">
                 <label>Радиус окружности:</label>
                 <input class="coordinatesInputR" type="number" id="R" value="5">
             </div>
-
+            <div class="coordinatesEllipse">
+                <label>Полуоси эллипса:</label>
+                <input class="coordinatesInputRX" type="number" id="rx" value="7" placeholder="Rx">
+                <input class="coordinatesInputRY" type="number" id="ry" value="5" placeholder="Ry">
+            </div>
         </div>
 
         <div class="endCoords">
             <label>Конечные координаты (X2, Y2):</label>
-            <input class="coordinatesInput" type="number" id="x2" value="30"> 
+            <input class="coordinatesInput" type="number" id="x2" value="30">
             <input class="coordinatesInput" type="number" id="y2" value="25">
         </div>
 

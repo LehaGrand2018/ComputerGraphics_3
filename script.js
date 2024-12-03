@@ -155,6 +155,65 @@ const bresenhamCircle = (x0, y0, radius) => {
         delay += 50;
     }
 }
+// Алгоритм Брезензема для Эллипса
+const bresenhamEllipse = (x0, y0, rx, ry) => {
+    let x = 0, y = ry;
+    let rxSq = rx * rx, rySq = ry * ry;
+    let twoRxSq = 2 * rxSq, twoRySq = 2 * rySq;
+
+    // Начальное значение принятия решения для первой области
+    let p1 = rySq - rxSq * ry + 0.25 * rxSq;
+    let dx = twoRySq * x; // Изменение по x
+    let dy = twoRxSq * y; // Изменение по y
+
+    delay = 0;
+
+    // Первая область
+    while (dx < dy) {
+        drawPixel(x0 + x, y0 + y);
+        drawPixel(x0 - x, y0 + y);
+        drawPixel(x0 + x, y0 - y);
+        drawPixel(x0 - x, y0 - y);
+
+        if (p1 < 0) {
+            x++;
+            dx += twoRySq;
+            p1 += dx + rySq;
+        } else {
+            x++;
+            y--;
+            dx += twoRySq;
+            dy -= twoRxSq;
+            p1 += dx - dy + rySq;
+        }
+        delay += 50;
+    }
+
+    // Начальное значение принятия решения для второй области
+    let p2 = rySq * (x + 0.5) * (x + 0.5) + rxSq * (y - 1) * (y - 1) - rxSq * rySq;
+
+    // Вторая область
+    while (y >= 0) {
+        drawPixel(x0 + x, y0 + y);
+        drawPixel(x0 - x, y0 + y);
+        drawPixel(x0 + x, y0 - y);
+        drawPixel(x0 - x, y0 - y);
+
+        if (p2 > 0) {
+            y--;
+            dy -= twoRxSq;
+            p2 += rxSq - dy;
+        } else {
+            y--;
+            x++;
+            dx += twoRySq;
+            dy -= twoRxSq;
+            p2 += dx - dy + rxSq;
+        }
+        delay += 50;
+    }
+};
+
 
 const draw = () => {
     drawGrid(gridSize);
@@ -167,6 +226,14 @@ const draw = () => {
         bresenhamCircle(x1, y1, radius);
         return;
     }
+
+    if (algorithm === "bresenhamEllipse") {
+        const rx = parseInt(document.getElementById("rx").value, 10);
+        const ry = parseInt(document.getElementById("ry").value, 10);
+        bresenhamEllipse(x1, y1, rx, ry);
+        return;
+    }
+    
 
     const x2 = parseInt(document.getElementById("x2").value, 10);
     const y2 = parseInt(document.getElementById("y2").value, 10);
@@ -182,18 +249,25 @@ const draw = () => {
             break;
     }
 }
+
 const algoritmInput = document.querySelector(".algorithm")
 algoritmInput.addEventListener("change", () => {
     const endCoords = document.querySelector(".endCoords");
     const rValue = document.querySelector(".coordinatesR");
+    const ellipseCoords = document.querySelector(".coordinatesEllipse");
     
     if (document.querySelector(".algorithm").value === "bresenhamCircle") {
         endCoords.style.display = "none";
         rValue.style.display = "block"
+        ellipseCoords.style.display = "none";
+    } else if (document.querySelector(".algorithm").value === "bresenhamEllipse") {
+        endCoords.style.display = "none";
+        rValue.style.display = "none";
+        ellipseCoords.style.display = "block";
     } else {
         endCoords.style.display = "block";
         rValue.style.display = "none"
-
+        ellipseCoords.style.display = "none";
     }
 });
 
